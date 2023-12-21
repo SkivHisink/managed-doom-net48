@@ -76,16 +76,6 @@ namespace ManagedDoom
             }
         }
 
-        public void UpdateFrameInterpolationInfo()
-        {
-            var current = cap.Next;
-            while (current != cap)
-            {
-                current.UpdateFrameInterpolationInfo();
-                current = current.Next;
-            }
-        }
-
         public void Reset()
         {
             cap.Prev = cap.Next = cap;

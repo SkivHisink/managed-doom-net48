@@ -114,7 +114,6 @@ namespace ManagedDoom
 								sector.SpecialData = null;
 								// Unlink and free.
 								world.Thinkers.Remove(this);
-								sector.DisableFrameInterpolationForOneFrame();
 								world.StartSound(sector.SoundOrigin, Sfx.BDCLS, SfxType.Misc);
 								break;
 
@@ -123,7 +122,6 @@ namespace ManagedDoom
 								sector.SpecialData = null;
 								// Unlink and free.
 								world.Thinkers.Remove(this);
-								sector.DisableFrameInterpolationForOneFrame();
 								break;
 
 							case VerticalDoorType.Close30ThenOpen:
@@ -176,7 +174,6 @@ namespace ManagedDoom
 								sector.SpecialData = null;
 								// Unlink and free.
 								world.Thinkers.Remove(this);
-								sector.DisableFrameInterpolationForOneFrame();
 								break;
 
 							default:

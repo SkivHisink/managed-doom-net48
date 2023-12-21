@@ -79,13 +79,11 @@ namespace ManagedDoom
 								case PlatformType.BlazeDwus:
 								case PlatformType.DownWaitUpStay:
 									sa.RemoveActivePlatform(this);
-									sector.DisableFrameInterpolationForOneFrame();
 									break;
 
 								case PlatformType.RaiseAndChange:
 								case PlatformType.RaiseToNearestAndChange:
 									sa.RemoveActivePlatform(this);
-									sector.DisableFrameInterpolationForOneFrame();
 									break;
 
 								default:

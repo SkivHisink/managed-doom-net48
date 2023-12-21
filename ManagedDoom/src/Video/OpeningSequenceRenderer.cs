@@ -34,7 +34,7 @@ namespace ManagedDoom.Video
             cache = new PatchCache(wad);
         }
 
-        public void Render(OpeningSequence sequence, Fixed frameFrac)
+        public void Render(OpeningSequence sequence)
         {
             var scale = screen.Width / 320;
 
@@ -45,7 +45,7 @@ namespace ManagedDoom.Video
                     break;
 
                 case OpeningSequenceState.Demo:
-                    parent.RenderGame(sequence.DemoGame, frameFrac);
+                    parent.RenderGame(sequence.DemoGame);
                     break;
 
                 case OpeningSequenceState.Credit:

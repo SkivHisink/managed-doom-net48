@@ -33,7 +33,7 @@ namespace ManagedDoom.Video
             return instance;
         }
 
-        public void Render(Doom doom, Fixed frameFrac)
+        public void Render(Doom doom)
         {
         }
 

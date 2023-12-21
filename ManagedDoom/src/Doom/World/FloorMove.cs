@@ -82,7 +82,6 @@ namespace ManagedDoom
 				}
 
 				world.Thinkers.Remove(this);
-				sector.DisableFrameInterpolationForOneFrame();
 
 				world.StartSound(sector.SoundOrigin, Sfx.PSTOP, SfxType.Misc);
 			}

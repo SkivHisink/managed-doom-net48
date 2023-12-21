@@ -65,7 +65,7 @@ namespace ManagedDoom
 						1,
 						direction);
 
-					if (((world.LevelTime + sector.Number) & 7) == 0)
+					if ((world.LevelTime & 7) == 0)
 					{
 						switch (type)
 						{
@@ -84,7 +84,6 @@ namespace ManagedDoom
 						{
 							case CeilingMoveType.RaiseToHighest:
 								sa.RemoveActiveCeiling(this);
-								sector.DisableFrameInterpolationForOneFrame();
 								break;
 
 							case CeilingMoveType.SilentCrushAndRaise:
@@ -114,7 +113,7 @@ namespace ManagedDoom
 						1,
 						direction);
 
-					if (((world.LevelTime + sector.Number) & 7) == 0)
+					if ((world.LevelTime & 7) == 0)
 					{
 						switch (type)
 						{
@@ -149,7 +148,6 @@ namespace ManagedDoom
 							case CeilingMoveType.LowerAndCrush:
 							case CeilingMoveType.LowerToFloor:
 								sa.RemoveActiveCeiling(this);
-								sector.DisableFrameInterpolationForOneFrame();
 								break;
 
 							default:

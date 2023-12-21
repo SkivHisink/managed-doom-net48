@@ -17,13 +17,11 @@
 
 using System;
 using System.IO;
-using Silk.NET.Maths;
-using Silk.NET.Windowing;
-using DrippyAL;
+using SFML.Window;
 
-namespace ManagedDoom.Silk
+namespace ManagedDoom.SFML
 {
-    public static class SilkConfigUtilities
+    public static class SfmlConfigUtilities
     {
         public static Config GetConfig()
         {
@@ -32,8 +30,8 @@ namespace ManagedDoom.Silk
             if (!config.IsRestoredFromFile)
             {
                 var vm = GetDefaultVideoMode();
-                config.video_screenwidth = vm.Resolution.Value.X;
-                config.video_screenheight = vm.Resolution.Value.Y;
+                config.video_screenwidth = (int)vm.Width;
+                config.video_screenheight = (int)vm.Height;
             }
 
             return config;
@@ -41,7 +39,7 @@ namespace ManagedDoom.Silk
 
         public static VideoMode GetDefaultVideoMode()
         {
-            var monitor = Monitor.GetMainMonitor(null);
+            var desktop = VideoMode.DesktopMode;
 
             var baseWidth = 640;
             var baseHeight = 400;
@@ -54,8 +52,8 @@ namespace ManagedDoom.Silk
                 var nextWidth = currentWidth + baseWidth;
                 var nextHeight = currentHeight + baseHeight;
 
-                if (nextWidth >= 0.9 * monitor.VideoMode.Resolution.Value.X ||
-                    nextHeight >= 0.9 * monitor.VideoMode.Resolution.Value.Y)
+                if (nextWidth >= 0.9 * desktop.Width ||
+                    nextHeight >= 0.9 * desktop.Height)
                 {
                     break;
                 }
@@ -64,15 +62,15 @@ namespace ManagedDoom.Silk
                 currentHeight = nextHeight;
             }
 
-            return new VideoMode(new Vector2D<int>(currentWidth, currentHeight));
+            return new VideoMode((uint)currentWidth, (uint)currentHeight);
         }
 
-        public static SilkMusic GetMusicInstance(Config config, GameContent content, AudioDevice device)
+        public static SfmlMusic GetMusicInstance(Config config, Wad wad)
         {
             var sfPath = Path.Combine(ConfigUtilities.GetExeDirectory(), config.audio_soundfont);
             if (File.Exists(sfPath))
             {
-                return new SilkMusic(config, content, device, sfPath);
+                return new SfmlMusic(config, wad, sfPath);
             }
             else
             {

@@ -64,6 +64,10 @@ namespace ManagedDoom
         // See SubstNullMobj().
         private Mobj dummy;
 
+        public World(GameContent resorces, GameOptions options) : this(resorces, options, null)
+        {
+        }
+
         public World(GameContent resorces, GameOptions options, DoomGame game)
         {
             this.options = options;
@@ -143,21 +147,6 @@ namespace ManagedDoom
         public UpdateResult Update()
         {
             var players = options.Players;
-
-            for (var i = 0; i < Player.MaxPlayerCount; i++)
-            {
-                if (players[i].InGame)
-                {
-                    players[i].UpdateFrameInterpolationInfo();
-                }
-            }
-            thinkers.UpdateFrameInterpolationInfo();
-
-            foreach (var sector in map.Sectors)
-            {
-                sector.UpdateFrameInterpolationInfo();
-            }
-
             for (var i = 0; i < Player.MaxPlayerCount; i++)
             {
                 if (players[i].InGame)
@@ -386,7 +375,20 @@ namespace ManagedDoom
             set => levelTime = value;
         }
 
-        public int GameTic => game.GameTic;
+        public int GameTic
+        {
+            get
+            {
+                if (game != null)
+                {
+                    return game.GameTic;
+                }
+                else
+                {
+                    return levelTime;
+                }
+            }
+        }
 
         public bool SecretExit => secretExit;
 
