@@ -1,13 +1,11 @@
-﻿using SFML.Graphics;
+﻿using ManagedDoom.SFML;
+using ManagedDoom;
+using SFML.Graphics;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using static ManagedDoom.CommandLineArgs;
 
 namespace WindowsFormsApp1
 {
@@ -39,7 +37,39 @@ namespace WindowsFormsApp1
             {
                 RendWind.DispatchEvents();
                 RendWind.Clear(new SFML.Graphics.Color((byte)51, (byte)77, (byte)102));
-                DrawStuff();
+                Console.ForegroundColor = ConsoleColor.White;
+                Console.BackgroundColor = ConsoleColor.DarkGreen;
+                Console.WriteLine(ApplicationInfo.Title);
+                Console.ResetColor();
+
+                try
+                {
+                    string quitMessage = null;
+
+                    using (var app = new SfmlDoom(new CommandLineArgs(new string[]{}), RendWind))
+                    {
+                        app.Run();
+                        quitMessage = app.QuitMessage;
+                    }
+
+                    if (quitMessage != null)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine(quitMessage);
+                        Console.ResetColor();
+                        Console.Write("Press any key to exit.");
+                        Console.ReadKey();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine(ex);
+                    Console.ResetColor();
+                    Console.Write("Press any key to exit.");
+                    Console.ReadKey();
+                }
+                //DrawStuff();
                 RendWind.Display();
             }
         }

@@ -32,7 +32,7 @@ namespace ManagedDoom.SFML
             {
                 string quitMessage = null;
 
-                using (var app = new SfmlDoom(new CommandLineArgs(args)))
+                using (var app = new SfmlDoom(new CommandLineArgs(args), null))
                 {
                     app.Run();
                     quitMessage = app.QuitMessage;

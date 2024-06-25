@@ -32,8 +32,8 @@ namespace ManagedDoom
         public Demo(byte[] data)
         {
             p = 0;
-
-            if (data[p++] != 109)
+            // TODO: this was 109
+            if (data[p++] != 108)
             {
                 throw new Exception("Demo is from a different game version!");
             }

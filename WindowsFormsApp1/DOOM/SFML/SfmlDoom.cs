@@ -38,7 +38,7 @@ namespace ManagedDoom.SFML
 
         private Doom doom;
 
-        public SfmlDoom(CommandLineArgs args)
+        public SfmlDoom(CommandLineArgs args, RenderWindow window_)
         {
             config = SfmlConfigUtilities.GetConfig();
 
@@ -53,7 +53,7 @@ namespace ManagedDoom.SFML
                     style = Styles.Fullscreen;
                 }
 
-                window = new RenderWindow(videoMode, ApplicationInfo.Title, style);
+                window = window_;//new RenderWindow(videoMode, ApplicationInfo.Title, style);
                 window.Clear(new Color(64, 64, 64));
                 window.Display();
 
