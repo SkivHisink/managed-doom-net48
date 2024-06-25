@@ -21,6 +21,7 @@ namespace WindowsFormsApp1
         public void StartSLMF()
         {
             RenderLoopWorker.RunWorkerAsync(this.Handle); //RenderLoopWorker is a BackgroundWorker
+            RenderLoopWorker.RunWorkerCompleted += BackgroundWorker_RunWorkerCompleted;
         }
 
         private void DrawStuff()
@@ -33,45 +34,45 @@ namespace WindowsFormsApp1
         private void RenderLoopWorker_DoWork(object sender, DoWorkEventArgs e)
         {
             RendWind = new RenderWindow((IntPtr)e.Argument);
-            while (RendWind.IsOpen)
+            RendWind.DispatchEvents();
+            RendWind.Clear(new SFML.Graphics.Color((byte)51, (byte)77, (byte)102));
+            Console.ForegroundColor = ConsoleColor.White;
+            Console.BackgroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine(ApplicationInfo.Title);
+            Console.ResetColor();
+
+            try
             {
-                RendWind.DispatchEvents();
-                RendWind.Clear(new SFML.Graphics.Color((byte)51, (byte)77, (byte)102));
-                Console.ForegroundColor = ConsoleColor.White;
-                Console.BackgroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine(ApplicationInfo.Title);
-                Console.ResetColor();
+                string quitMessage = null;
 
-                try
+                using (var app = new SfmlDoom(new CommandLineArgs(new string[] { }), RendWind))
                 {
-                    string quitMessage = null;
-
-                    using (var app = new SfmlDoom(new CommandLineArgs(new string[]{}), RendWind))
-                    {
-                        app.Run();
-                        quitMessage = app.QuitMessage;
-                    }
-
-                    if (quitMessage != null)
-                    {
-                        Console.ForegroundColor = ConsoleColor.Green;
-                        Console.WriteLine(quitMessage);
-                        Console.ResetColor();
-                        Console.Write("Press any key to exit.");
-                        Console.ReadKey();
-                    }
+                    app.Run();
+                    quitMessage = app.QuitMessage;
                 }
-                catch (Exception ex)
+
+                if (quitMessage != null)
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine(ex);
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine(quitMessage);
                     Console.ResetColor();
                     Console.Write("Press any key to exit.");
                     Console.ReadKey();
                 }
-                //DrawStuff();
-                RendWind.Display();
             }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex);
+                Console.ResetColor();
+                Console.Write("Press any key to exit.");
+                Console.ReadKey();
+            }
+        }
+
+        private void BackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            this.ParentForm.Close();
         }
 
         protected override void OnPaint(System.Windows.Forms.PaintEventArgs e)
